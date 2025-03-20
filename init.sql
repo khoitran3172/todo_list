@@ -1,4 +1,3 @@
-
 CREATE DATABASE IF NOT EXISTS todo_list;
 USE todo_list;
 
@@ -14,17 +13,15 @@ CREATE TABLE IF NOT EXISTS tasks (
     deleted_at TIMESTAMP NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
 CREATE TABLE IF NOT EXISTS task_dependencies (
     task_id INT NOT NULL,
     dependency_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (task_id, dependency_id),
-    FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
-    FOREIGN KEY (dependency_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    CONSTRAINT fk_task_id FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    CONSTRAINT fk_dependency_id FOREIGN KEY (dependency_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT check_self_dependency CHECK (task_id != dependency_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 CREATE TABLE IF NOT EXISTS notification_logs (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -35,7 +32,6 @@ CREATE TABLE IF NOT EXISTS notification_logs (
     error_message TEXT,
     FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 CREATE INDEX idx_tasks_status ON tasks(status);
 CREATE INDEX idx_tasks_priority ON tasks(priority);
