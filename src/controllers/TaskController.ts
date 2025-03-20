@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { TaskService } from '../services/TaskService';
 import { Task, TaskStatus, TaskPriority } from '../models/Task';
 
-// Custom error type
+
 class AppError extends Error {
     constructor(message: string) {
         super(message);
